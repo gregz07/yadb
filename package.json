@@ -1,11 +1,19 @@
 {
   "name": "yadb",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lotr-story-teller.js",
   "repository": "https://github.com/gregz07/yadb.git",
   "author": "greggz",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon lotr-story-teller.js"
+  },
   "dependencies": {
-    "discord": "^0.8.2"
+    "config": "^3.3.3",
+    "discord.js": "^12.5.1",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
