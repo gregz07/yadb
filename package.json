@@ -1,0 +1,11 @@
+{
+  "name": "yadb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gregz07/yadb.git",
+  "author": "greggz",
+  "license": "MIT",
+  "dependencies": {
+    "discord": "^0.8.2"
+  }
+}
