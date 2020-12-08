@@ -9,9 +9,13 @@
     "start": "nodemon lotr-story-teller.js"
   },
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "config": "^3.3.3",
     "discord.js": "^12.5.1",
-    "fs": "^0.0.1-security"
+    "ffmpeg-static": "^4.2.7",
+    "fs": "^0.0.1-security",
+    "yt-search": "^2.5.1",
+    "ytdl-core": "^4.1.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
