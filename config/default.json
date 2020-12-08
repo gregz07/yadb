@@ -1,3 +1,7 @@
 {
-  "bot_token": "./secrets/bot_token" 
+  "prefix": "!lotr",
+  "bot_token": "./secrets/bot_token",
+  "story-teller": {
+    "channels": ["Men of the West", "History of the Ages", "Nerd of the Rings"]
+  }
 }
