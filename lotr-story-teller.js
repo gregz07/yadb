@@ -15,7 +15,6 @@ const prefix = config.get('prefix');
 const _bot = new Discord.Client();
 let connection = undefined;
 let storyTime = false;
-dispatcher = undefined;
 
 _bot.once('ready', () => {
 	console.log('Ready!');
