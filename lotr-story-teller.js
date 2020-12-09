@@ -44,9 +44,9 @@ _bot.on('message', async function(message){
   }
 
   try {
-    let instructions = commandParser(args);
-    // Find our story
-    let storyUrl = await analyzer(instructions.query);
+    let query = commandParser(args);
+    // Find our story 
+    let storyUrl = await analyzer(query);
     // Story time
     const dispatcher = connection.play(ytdl(storyUrl, {filter: 'audioonly'}));
     dispatcher.on('start', function() {
