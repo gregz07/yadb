@@ -1,4 +1,7 @@
-const { Glossary } = require('../lotr-glossary.json');
+const config = require('config');
+const path = require('path');
+const { Glossary } = require(path.resolve(config.get('story-teller').glossary));
+
 /**
  * @param {string} args Elendil --channel=Men of the West 
  * @returns {Object} query 

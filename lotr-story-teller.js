@@ -1,13 +1,15 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
+const path = require('path');
+const config = require('config');
 const analyzer = require('./utils/analyzer');
 const commandParser = require('./utils/command-parser');
 const print = require('./utils/print');
 
 // Local configs
-const embededToken = require('config').get('bot_token');
-const prefix = require('config').get('prefix');
+const embededToken = path.resolve(config.get('bot_token'));
+const prefix = config.get('prefix');
 
 // private vars
 const _bot = new Discord.Client();
