@@ -6,7 +6,8 @@
   "author": "greggz",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon lotr-story-teller.js"
+    "devStart": "nodemon lotr-story-teller.js",
+    "start": "node lotr-story-teller.js"
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
@@ -15,7 +16,7 @@
     "ffmpeg-static": "^4.2.7",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
-    "yt-search": "^2.5.1",
+    "yt-search": "^2.7.6",
     "ytdl-core": "^4.1.4"
   },
   "devDependencies": {
