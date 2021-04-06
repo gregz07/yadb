@@ -4,19 +4,18 @@ Discord bot that will play for you some stories about Middle earth
 
 Commands must start with !lotr
 
-eg: !lotr Aragorn 
+eg: _!lotr Aragorn _
 
 Supported flags: 
   - channel : searches only in that specific channel. If not supplied, only allows the channels specified in story-teller.channels inside the configuration folder.
   - maxduration : does not play stories longer than xxxx seconds
 
-!lotr Gothmog --channel=Men of the west
+eg: _!lotr Gothmog --channel=Men of the west_
 
-Special command: utellme
+Special command: _utellme_ (searches with keyword randomly selected from the glossary)
+ 
+eg: _!lotr utellme_
 
-!lotr utellme
-
-searches with keyword randomly selected from the Glossary
 
 
 
