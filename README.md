@@ -4,7 +4,7 @@ Discord bot that will play for you some stories about Middle earth
 
 Commands must start with !lotr
 
-eg: _!lotr Aragorn _
+eg: _!lotr Aragorn_ (tells you a story about Aragorn) 
 
 Supported flags: 
   - channel : searches only in that specific channel. If not supplied, only allows the channels specified in story-teller.channels inside the configuration folder.
