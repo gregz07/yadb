@@ -1,4 +1,5 @@
-# Lotr story teller <img src="https://user-images.githubusercontent.com/14835837/113698685-9dcec280-96cc-11eb-9b5a-e72cb1b8bd75.png" width="100" height="100"> 
+
+![final](https://user-images.githubusercontent.com/14835837/113717918-04aba600-96e4-11eb-920a-caa5bf68a7f3.png)
 
 Discord bot that will play for you some stories about Middle earth
 
