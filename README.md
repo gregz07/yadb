@@ -1,5 +1,4 @@
-# yadb
-Lotr story teller
+# yadb - Lotr story teller [alt text](https://upload.wikimedia.org/wikipedia/commons/d/d4/One_Ring_Blender_Render.png)
 
 Discord bot that will play for you some stories about Middle earth
 
