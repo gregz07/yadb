@@ -2,7 +2,10 @@
   "prefix": "!lotr",
   "bot_token": "./secrets/bot_token",
   "story-teller": {
-    "channels": ["Men of the West", "History of the Ages", "Nerd of the Rings"],
+    "channels": [
+      "UCItHdUEqlpfvDlcCeyZwH6w", 
+      "UCW0gH2G-cMKAEjEkI4YhnPA"
+    ],
     "glossary": "./extras/lotr-glossary"
   }
 }
