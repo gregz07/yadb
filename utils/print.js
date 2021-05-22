@@ -1,6 +1,8 @@
 module.exports = function(channel, text) {
   let txtMessage = messages[text] || text;
-  channel.send(txtMessage);
+  channel.send(
+    txtMessage.length > 1999 ? txtMessage.substring(0, 1999) : txtMessage
+  );
 }
 
 const messages = {
