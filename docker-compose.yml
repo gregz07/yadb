@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+  story-teller:
+    build:
+      context: "."
+      dockerfile: "Dockerfile"
+    image: story-teller
+    container_name: STORY-TELLER
+    volumes:
+      - ./:/bot
+    depends_on:
+      - "rabbitmq"
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "RABBITMQ"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq

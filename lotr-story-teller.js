@@ -10,7 +10,7 @@ const print = require('./utils/print');
 // Local configs
 const embededToken = path.resolve(config.get('bot_token'));
 const prefix = config.get('prefix');
-console.log(process.ppid);
+
 // private vars
 const _bot = new Discord.Client();
 let connection = undefined;
@@ -51,7 +51,9 @@ _bot.on('message', async function(message){
     // Find our story 
     let storyUrl = await analyzer(query);
     // Story time
+    console.log(storyUrl)
     const dispatcher = connection.play(ytdl(storyUrl, {filter: 'audioonly'}));
+    console.log('here')
     dispatcher.on('start', function() {
       print(channel, "STORY_STARTING");
       storyTime = true;
