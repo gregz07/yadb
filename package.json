@@ -10,7 +10,6 @@
     "start": "node lotr-story-teller.js"
   },
   "dependencies": {
-    "amqplib": "^0.7.1",
     "@discordjs/opus": "^0.3.3",
     "config": "^3.3.3",
     "discord.js": "^12.5.1",
