@@ -51,9 +51,7 @@ _bot.on('message', async function(message){
     // Find our story 
     let storyUrl = await analyzer(query);
     // Story time
-    console.log(storyUrl)
     const dispatcher = connection.play(ytdl(storyUrl, {filter: 'audioonly'}));
-    console.log('here')
     dispatcher.on('start', function() {
       print(channel, "STORY_STARTING");
       storyTime = true;
