@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { Client, Events, GatewayIntentBits } = require('discord.js');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const path = require('path');
@@ -12,7 +13,12 @@ const embededToken = path.resolve(config.get('bot_token'));
 const prefix = config.get('prefix');
 
 // private vars
-const _bot = new Discord.Client();
+const _bot = new Client({ intents: [
+    GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildVoiceStates
+  ]});
 let connection = undefined;
 let storyTime = false;
 
@@ -21,11 +27,11 @@ _bot.once('ready', () => {
 	console.log('Ready!');
 });
 
-_bot.on('message', async function(message){
-  
+_bot.on(Events.MessageCreate, async function(message){
+ 
   let [lotr, ...args] = message.content.split(' ');
   args = args.join(' ');
-  
+
   if (!lotr || lotr !== prefix) {
     return; // Ignore any command
   }
@@ -38,7 +44,12 @@ _bot.on('message', async function(message){
   }
 
   if (!connection) {
-    connection = await message.member.voice.channel.join();
+    connection = joinVoiceChannel({
+      channelId: message.member.voice.channel.id,
+      guildId: message.guild.id,
+      adapterCreator: message.guild.voiceAdapterCreator,
+      selfDeaf: false
+    });
   }
 
   if (storyTime) {
@@ -50,16 +61,27 @@ _bot.on('message', async function(message){
     let query = commandParser(args);
     // Find our story 
     let storyUrl = await analyzer(query);
-    // Story time
-    const dispatcher = connection.play(ytdl(storyUrl, {filter: 'audioonly'}));
-    dispatcher.on('start', function() {
-      print(channel, "STORY_STARTING");
-      storyTime = true;
+
+    // Setup
+    let player = createAudioPlayer();
+    let resource = createAudioResource(ytdl(storyUrl, { filter: 'audioonly' }));
+    player.play(resource);
+    connection.subscribe(player);
+    
+    player.on(AudioPlayerStatus.Playing, (oldState, newState) => {
+      if (oldState === AudioPlayerStatus.Buffering) {
+        print(channel, "STORY_STARTING");
+        storyTime = true;
+      }
     });
-    dispatcher.on('finish', function() {
-      print(channel, "STORY_ENDED");
-      storyTime = false;
+
+    player.on(AudioPlayerStatus.Idle, (oldState, newState) => {
+      if (oldState === AudioPlayerStatus.Playing) {
+        print(channel, "STORY_ENDED");
+        storyTime = false;
+      }
     });
+
   } catch(err) {
     print(channel, err.message || err);
     return;
