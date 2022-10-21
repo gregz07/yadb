@@ -4,5 +4,13 @@
   "story-teller": {
     "channels": ["Men of the West", "History of the Ages", "Nerd of the Rings"],
     "glossary": "./extras/lotr-glossary"
+  },
+  "audio_options": {
+    "filter": "audioonly",
+    "fmt": "mp3",
+    "highWaterMark": 1152921504606846976,
+    "dlChunkSize": 0, // disabling chunking is recommended in discord bot
+    "bitrate": 128,
+    "quality": "lowestaudio"
   }
 }

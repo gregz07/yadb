@@ -63,25 +63,47 @@ _bot.on(Events.MessageCreate, async function(message){
     
     // Setup
     let player = createAudioPlayer();
-    let resource = createAudioResource(ytdl(storyUrl, { filter: 'audioonly' }));
+    let resource = createAudioResource(ytdl(storyUrl, {
+      filter: "audioonly",
+      fmt: "mp3",
+      highWaterMark: 1152921504606846976,
+      dlChunkSize: 0, // disabling chunking is recommended in discord bot
+      bitrate: 128,
+      quality: "lowestaudio"
+    }));
     player.play(resource);
     connection.subscribe(player);
     
-    player.on(AudioPlayerStatus.Playing, (oldState, newState) => {
+    player.on(AudioPlayerStatus.Playing, (oldState, _) => {
       if (oldState.status === AudioPlayerStatus.Buffering) {
         print(channel, "STORY_STARTING");
         storyTime = true;
       }
     });
 
-    player.on(AudioPlayerStatus.Idle, (oldState, newState) => {
+    player.on(AudioPlayerStatus.Idle, (oldState, _) => {
       if (oldState.status === AudioPlayerStatus.Playing) {
         print(channel, "STORY_ENDED");
         storyTime = false;
       }
     });
 
+    player.on('stateChange', (oldState, newState) => {
+      console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
+      if (newState.onStreamError) {
+        console.error(newState.onStreamError);
+      }
+    });
+
+    player.on('error', error => {
+      console.error(`Error: ${error.message} with resource ${error.resource.metadata.title}`);
+      player.pause();
+      setTimeout(player.unpause(), 5000);
+      print(channel, "Trying to resume audio...");
+    });
+
   } catch(err) {
+    console.error(err);
     print(channel, err.message || err);
     return;
   }
