@@ -1,26 +1,39 @@
-const yts = require('yt-search')
-const storyTeller = require('config').get('story-teller');
+const { getStatus, findVideos, databaseStatus } = require('./youtubei');
 
 module.exports = async function(query) {
-  let result = await yts(query.text);
-  let possibleVideos = result.videos.filter(by(query)['channel']);
+
+  while(getStatus() !== databaseStatus.ready) {
+    await sleep(2000);
+  }
+
+  let possibleVideos = await findVideos(query.text);
+
+  if (query.options.channel) {
+    possibleVideos = possibleVideos.filter(by(query.options)['channel']);
+  }
 
   if (query.options.maxduration) {
-    possibleVideos = possibleVideos.filter(by(query)['duration']);
+    possibleVideos = possibleVideos.filter(by(query.options)['duration']);
   }
 
   if (!possibleVideos || possibleVideos.length == 0) {
     throw new Error('No stories were found..');
   }
+  
+  let chosenVideo = possibleVideos[Math.floor(Math.random() * possibleVideos.length)];
 
-  return possibleVideos[Math.floor(Math.random() * possibleVideos.length)].url;
+  return "https://www.youtube.com/watch?v=" + chosenVideo.id;
 }
 
-function by(query) {
+function by(options) {
   return {
     'channel': 
-      (v) => query.options.channel ? v.author.name.toLowerCase().trim() == query.options.channel.toLowerCase().trim() : storyTeller.channels.includes(v.author.name),
+      (v) => v.channel.toLowerCase().trim() == options.channel.toLowerCase().trim(),
     'duration': 
-      (v) => v.seconds <= query.options.maxduration
+      (v) => v.duration <= options.maxduration
   } 
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

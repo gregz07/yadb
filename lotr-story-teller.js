@@ -28,7 +28,6 @@ _bot.once('ready', () => {
 });
 
 _bot.on(Events.MessageCreate, async function(message){
- 
   let [lotr, ...args] = message.content.split(' ');
   args = args.join(' ');
 
@@ -61,7 +60,7 @@ _bot.on(Events.MessageCreate, async function(message){
     let query = commandParser(args);
     // Find our story 
     let storyUrl = await analyzer(query);
-
+    
     // Setup
     let player = createAudioPlayer();
     let resource = createAudioResource(ytdl(storyUrl, { filter: 'audioonly' }));
@@ -69,14 +68,14 @@ _bot.on(Events.MessageCreate, async function(message){
     connection.subscribe(player);
     
     player.on(AudioPlayerStatus.Playing, (oldState, newState) => {
-      if (oldState === AudioPlayerStatus.Buffering) {
+      if (oldState.status === AudioPlayerStatus.Buffering) {
         print(channel, "STORY_STARTING");
         storyTime = true;
       }
     });
 
     player.on(AudioPlayerStatus.Idle, (oldState, newState) => {
-      if (oldState === AudioPlayerStatus.Playing) {
+      if (oldState.status === AudioPlayerStatus.Playing) {
         print(channel, "STORY_ENDED");
         storyTime = false;
       }

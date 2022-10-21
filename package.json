@@ -8,7 +8,7 @@
   "scripts": {
     "devStart": "nodemon lotr-story-teller.js",
     "start": "node lotr-story-teller.js",
-    "dependencyReport": "node dependencyReport.js"
+    "devYtSearch": "nodemon youtubei.js"
   },
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
@@ -20,7 +20,7 @@
     "path": "^0.12.7",
     "prism-media": "^1.3.4",
     "sodium": "^3.0.2",
-    "yt-search": "^2.8.0",
+    "youtubei": "^1.0.0-rc.5",
     "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
