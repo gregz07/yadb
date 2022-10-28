@@ -1,7 +1,9 @@
 const { Client } = require('youtubei');
 const config = require('config');
 
-const youtube = new Client();
+const youtube = new Client({
+  initialCookie: 'CONSENT=YES+PT.pt+201908; APISID=67YEf6cwh9qP6WaK/Ai5GcBK4rkZwB3fxP; SAPISID=uOEoY3BnW86Lw_PM/AFvFcrkhhKTXZfif_; __Secure-1PAPISID=uOEoY3BnW86Lw_PM/AFvFcrkhhKTXZfif_; __Secure-3PAPISID=uOEoY3BnW86Lw_PM/AFvFcrkhhKTXZfif_; SID=PQjTfMtldzMSZc8IViXN1i0zudvNQZOlTArnsLraPsCeOlrs75E_AnhWb9_Ei6HdXMu1sQ.; PREF=tz=Europe.Lisbon&f5=30000; SIDCC=AIKkIs3IgIr6LucmT-YmdQayZgZZ_Xcli4YIOI-2g4HqS-OeJM7AIrse83LNpIVKBKxlN5ShkYk'
+});
 
 let data = [];
 const statuses = {
@@ -20,6 +22,10 @@ async function findVideos (key) {
     return "Wait for initialization to finish. Call getStatus() for updates";
   }
 
+  console.log("Searching with key: " + key);
+  console.log("Current db:");
+  console.log(data.length);
+
   let results = data.filter(v => v.title.toLowerCase().includes(key.toLowerCase()));
 
   return results.map(v => mapVideo(v));
@@ -29,11 +35,28 @@ async function loadVideoLibrary() {
   dataStatus = statuses.buffering;
   const availableChannels = config.get('story-teller').channels;
   
-  for (let i = 0; i < availableChannels.length; ++i) {
-    const channel = availableChannels[i];
-    const channelInfo = await youtube.findOne(channel, { type: 'channel' });
-    await channelInfo.videos.next(0);
-    data.push(...channelInfo.videos.items);
+  let channels = await Promise.allSettled(
+    availableChannels.map(ch => youtube.findOne(ch, { type: 'channel' }))
+  );
+
+  for (let i = 0; i < channels.length; ++i) {
+    if (channels[i].status === "fulfilled") {
+      const channelInfo = channels[i].value;
+      try {
+        await channelInfo.videos.next();
+        await channelInfo.videos.next();
+        await channelInfo.videos.next();
+        await channelInfo.videos.next();
+        await channelInfo.videos.next();
+        data.push(...channelInfo.videos.items);
+      } catch(err) {
+        console.error(err);
+        console.log(channelInfo);
+        console.log(channelInfo.videos);
+      }
+    } else {
+      console.log(channels[i].reason)
+    }
   }
 }
 

@@ -58,9 +58,10 @@ _bot.on(Events.MessageCreate, async function(message){
 
   try {
     let query = commandParser(args);
+    console.log(query)
     // Find our story 
     let storyUrl = await analyzer(query);
-    
+    console.log(storyUrl)
     // Setup
     let player = createAudioPlayer();
     let resource = createAudioResource(ytdl(storyUrl, {
@@ -90,9 +91,6 @@ _bot.on(Events.MessageCreate, async function(message){
 
     player.on('stateChange', (oldState, newState) => {
       console.log(`Audio player transitioned from ${oldState.status} to ${newState.status}`);
-      if (newState.onStreamError) {
-        console.error(newState.onStreamError);
-      }
     });
 
     player.on('error', error => {
