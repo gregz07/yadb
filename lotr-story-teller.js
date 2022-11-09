@@ -103,7 +103,6 @@ _bot.on(Events.MessageCreate, async function(message){
     });
 
   } catch(err) {
-    console.error(err);
     print(channel, err.message || err);
     return;
   }
