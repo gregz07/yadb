@@ -8,7 +8,7 @@ Commands must start with !lotr
 eg: _!lotr Aragorn_ (tells you a story about Aragorn) 
 
 Supported flags: 
-  - channel : searches only in that specific channel. If not supplied, only allows the channels specified in story-teller.channels inside the configuration folder.
+  - channel : searches only in that specific channel from the story-teller.channels inside the configuration folder.
   - maxduration : does not play stories longer than xxxx seconds
 
 eg: _!lotr Gothmog --channel=Men of the west_
