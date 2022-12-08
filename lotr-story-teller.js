@@ -63,14 +63,7 @@ _bot.on(Events.MessageCreate, async function(message){
     
     // Setup
     let player = createAudioPlayer();
-    let resource = createAudioResource(ytdl(storyUrl, {
-      filter: "audioonly",
-      fmt: "mp3",
-      highWaterMark: 1152921504606846976,
-      dlChunkSize: 0, // disabling chunking is recommended in discord bot
-      bitrate: 128,
-      quality: "lowestaudio"
-    }));
+    let resource = createAudioResource(ytdl(storyUrl, Object.assign({}, config.get('audio_options'))));
     player.play(resource);
     connection.subscribe(player);
     
